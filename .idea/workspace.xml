@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcf36c54-664f-41d1-8742-e24001892b7f" name="Changes" comment="">
+    <list default="true" id="fcf36c54-664f-41d1-8742-e24001892b7f" name="Changes" comment="Skapar upp Package och Repository">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Inlämning_3/Spelplan_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inlämning_3/Spelplan_GUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +47,20 @@
       <recent name="$PROJECT_DIR$/src/IdeerOchKladd" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Inlämning_3.Spela">
+    <configuration name="Inlämning_3.Spela" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Inlämning_3.Spela" />
+      <module name="OOP_Sprint3_Inlamning" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Inlämning_3.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Spela" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="IdeerOchKladd.Spela" />
       <module name="OOP_Sprint3_Inlamning" />
@@ -62,6 +76,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Inlämning_3.Spela" />
         <item itemvalue="Application.Spela" />
       </list>
     </recent_temporary>
@@ -76,6 +91,7 @@
       <updated>1667223966148</updated>
       <workItem from="1667223967798" duration="998000" />
       <workItem from="1667305810482" duration="441000" />
+      <workItem from="1667310033605" duration="322000" />
     </task>
     <servers />
   </component>

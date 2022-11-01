@@ -10,12 +10,12 @@ import java.util.List;
 
 public class Spelplan_GUI implements ActionListener {
 
-     int boardsize;
-     int squares;
+    int boardsize;
+    int squares;
 
-     // Hej hej
+    // Hej hej
 
-     JPanel klickedPosition;
+    JPanel klickedPosition;
 
 
     JFrame frame = new JFrame("15-spel");
@@ -30,7 +30,7 @@ public class Spelplan_GUI implements ActionListener {
 
     public Spelplan_GUI(int boardsize) {
         this.boardsize = boardsize;
-        this.squares = boardsize*boardsize;
+        this.squares = boardsize * boardsize;
 
 
         frame.setSize(400, 400);
@@ -74,14 +74,14 @@ public class Spelplan_GUI implements ActionListener {
     //hitta tom position (=hitta button med text "0" och returnera JPanel som den ligger på)
     public JPanel findEmptyPosition() {
         JPanel emptyposition = null;
-       JButton button;
-       for (int i = 0; i < squares; i++) {
-           button = ((JButton) positions.get(i).getComponent(0));  //här castar man från Component-type till JButton-type
-           if (button.getText().equals("0")) {
-               emptyposition = positions.get(i);
-           }
-       }
-       return emptyposition;
+        JButton button;
+        for (int i = 0; i < squares; i++) {
+            button = ((JButton) positions.get(i).getComponent(0));  //här castar man från Component-type till JButton-type
+            if (button.getText().equals("0")) {
+                emptyposition = positions.get(i);
+            }
+        }
+        return emptyposition;
     }
 
     //kollar om det är tillåtet att flytta från en position till den tomma positionen
@@ -92,11 +92,11 @@ public class Spelplan_GUI implements ActionListener {
 
         // identifierar rad och kolumn för tom ruta:
         int emptyPosRow = ((emptyPos - 1) / boardsize) + 1;
-        int emptyPosCol = ((emptyPos-1) % boardsize)+1;
+        int emptyPosCol = ((emptyPos - 1) % boardsize) + 1;
 
         // identifierar rad och kolumn för tryfrom position:
         int tryFromRow = ((tryFromPos - 1) / boardsize) + 1;
-        int tryFromCol = ((tryFromPos-1) % boardsize)+1;
+        int tryFromCol = ((tryFromPos - 1) % boardsize) + 1;
 
         //endast tillåtet att flytta 1 steg på spelplanen (horisontellt eller vertikalt)
         boolean isPermitted = false;
@@ -114,29 +114,58 @@ public class Spelplan_GUI implements ActionListener {
 
     public boolean makeAMove(JPanel klickedPos) {
         boolean movedSuccesfully = false;
-        if (isPermittedSwap(klickedPos, findEmptyPosition())) {
+        if (isPermittedSwap(findEmptyPosition(), klickedPos)) {
+            JButton empty = ((JButton) findEmptyPosition().getComponent(0));
+            JButton klicked = ((JButton) klickedPos.getComponent(0));
+
+            empty.setText(klicked.getText());
+            empty.setVisible(true);
+
+            klicked.setText("0");
+            klicked.setVisible(false);
             //här behövs kod för att byta nummer på buttons och ändra visibility status
 
+
             //denna kod är för att kolla så koden funkar, tas bort sedan.
-            JOptionPane.showMessageDialog(null, "Det är tillåtet att flytta bricka nr: " + ((JButton)klickedPos.getComponent(0)).getText());
+            //JOptionPane.showMessageDialog(null, "Det är tillåtet att flytta bricka nr: " + ((JButton)klickedPos.getComponent(0)).getText());
             movedSuccesfully = true;
         }
         return movedSuccesfully;
+    }
+
+    public boolean gameCompleted() {
+        boolean completed = true;
+        for (int i = 0; i < squares - 1; i++) {
+            String buttonNo = ((JButton) positions.get(i).getComponent(0)).getText();
+            String positionNo = String.valueOf(i + 1);
+            if (!buttonNo.equals(positionNo)) {
+                completed = false;
+                break;
+            }
+        }
+        return completed;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         //kollar vilken knapp tom tryckts, identifierar knappens position
         for (int i = 0; i < squares; i++) {
-            if(buttons.get(i)==e.getSource()){
-                 klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
-
-                 //Testutskrift för att se om funktionaliteten funkar
-                JOptionPane.showMessageDialog(null, "Du tryckte på knapp: " + buttons.get(i).getText() +
-                        "\nsom ligger på position "+klickedPosition.getName());
+            if (buttons.get(i) == e.getSource()) {
+                klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
 
                 makeAMove(klickedPosition);
+                if (gameCompleted()) {
+                    JOptionPane.showMessageDialog(null, "Congrats! You have completed the Game!");
 
+                    int dialogbutton = JOptionPane.YES_NO_OPTION;
+                    JOptionPane.showConfirmDialog(null, "Play Again?", "", dialogbutton);
+                    if (dialogbutton == JOptionPane.YES_NO_OPTION) {
+                        new Spelplan_GUI(Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)")));
+                    } else {
+                        System.exit(0);
+                    }
+
+                }
             }
         }
     }
