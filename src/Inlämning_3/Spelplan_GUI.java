@@ -13,6 +13,8 @@ public class Spelplan_GUI implements ActionListener {
      int boardsize;
      int squares;
 
+     // Hej hej
+
      JPanel klickedPosition;
 
 
