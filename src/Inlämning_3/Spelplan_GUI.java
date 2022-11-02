@@ -144,14 +144,36 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
 
     public boolean makeAMove(JPanel klickedPos) {
         boolean movedSuccesfully = false;
-        if (isPermittedSwap(klickedPos, findEmptyPosition())) {
+        if (isPermittedSwap(findEmptyPosition(), klickedPos)) {
+            JButton empty = ((JButton) findEmptyPosition().getComponent(0));
+            JButton klicked = ((JButton) klickedPos.getComponent(0));
+
+            empty.setText(klicked.getText());
+            empty.setVisible(true);
+
+            klicked.setText("0");
+            klicked.setVisible(false);
             //här behövs kod för att byta nummer på buttons och ändra visibility status
 
+
             //denna kod är för att kolla så koden funkar, tas bort sedan.
-            JOptionPane.showMessageDialog(null, "Det är tillåtet att flytta bricka nr: " + ((JButton) klickedPos.getComponent(0)).getText());
+
             movedSuccesfully = true;
         }
         return movedSuccesfully;
+    }
+
+    public boolean gameCompleted() {
+        boolean completed = true;
+        for (int i = 0; i < squares - 1; i++) {
+            String buttonNo = ((JButton) positions.get(i).getComponent(0)).getText();
+            String positionNo = String.valueOf(i + 1);
+            if (!buttonNo.equals(positionNo)) {
+                completed = false;
+                break;
+            }
+        }
+        return completed;
     }
 
     @Override
@@ -161,12 +183,20 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
             if (buttons.get(i) == e.getSource()) {
                 klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
 
-                //Testutskrift för att se om funktionaliteten funkar
-                JOptionPane.showMessageDialog(null, "Du tryckte på knapp: " + buttons.get(i).getText() +
-                        "\nsom ligger på position " + klickedPosition.getName());
 
                 makeAMove(klickedPosition);
+                if (gameCompleted()) {
+                    JOptionPane.showMessageDialog(null, "Congrats! You have completed the Game!");
 
+                    int dialogbutton = JOptionPane.YES_NO_OPTION;
+                    JOptionPane.showConfirmDialog(null, "Play Again?", "", dialogbutton);
+                    if (dialogbutton == JOptionPane.YES_NO_OPTION) {
+                        new Spelplan_GUI(Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)")));
+                    } else {
+                        System.exit(0);
+                    }
+
+                }
             }
 
         }
