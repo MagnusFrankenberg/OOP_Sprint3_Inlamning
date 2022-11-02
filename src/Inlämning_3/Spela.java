@@ -11,7 +11,7 @@ public class Spela {
 
     public Spela() {
 
-       //tar in input för spelets storlek
+        //tar in input för spelets storlek
         int storlek = sizeChooser();
 
         //skapar upp ett objekt av Spelplan_GUI-klassen
@@ -22,9 +22,10 @@ public class Spela {
         //en demoinställning som lägger brickorna en position från vinst så vinst kan demonstreras.
         // makeAMove(sp.klickedPosition);
     }
+
     public int sizeChooser() {
 
-        JLabel label1 = new JLabel("<html>Ange önskad storlek<br/> (antal rutor per rad)<html>");
+        JLabel label1 = new JLabel("<html>Ange antal rutor per rad:<html>");
         JLabel label2 = new JLabel("Du måste ange en siffra");
         label2.setForeground(Color.RED);
         label2.setVisible(false);
@@ -36,7 +37,7 @@ public class Spela {
         int storlek;
         while (true) {
             try {
-                String input = JOptionPane.showInputDialog(panel);
+                String input = JOptionPane.showInputDialog(panel, panel, "Hur stort ska spelbrädet vara?", 3);
                 if (input == null) {
                     System.exit(0);
                 } else {

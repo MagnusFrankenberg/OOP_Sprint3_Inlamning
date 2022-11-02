@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcf36c54-664f-41d1-8742-e24001892b7f" name="Changes" comment="Skapar upp Package och Repository">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="fcf36c54-664f-41d1-8742-e24001892b7f" name="Changes" comment="Size-chooser metoden">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Inlämning_3/Spela.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inlämning_3/Spela.java" afterDir="false" />
     </list>
@@ -107,7 +106,13 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1667306280310</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="Size-chooser metoden">
+      <created>1667402844237</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1667402844237</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,6 +131,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Test hejhej" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test hejhej" />
+    <MESSAGE value="Size-chooser metoden" />
+    <option name="LAST_COMMIT_MESSAGE" value="Size-chooser metoden" />
   </component>
 </project>
