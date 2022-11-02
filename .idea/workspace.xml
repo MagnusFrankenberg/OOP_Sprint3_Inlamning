@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-
     <list default="true" id="fcf36c54-664f-41d1-8742-e24001892b7f" name="Changes" comment="Skapar upp Package och Repository">
-
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inlämning_3/Spelplan_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inlämning_3/Spelplan_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inlämning_3/Spela.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inlämning_3/Spela.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,10 +98,8 @@
       <option name="presentableId" value="Default" />
       <updated>1667223966148</updated>
       <workItem from="1667223967798" duration="998000" />
-
       <workItem from="1667305810482" duration="441000" />
       <workItem from="1667310033605" duration="322000" />
-
     </task>
     <task id="LOCAL−00001" summary="Test hejhej">
       <created>1667306280310</created>

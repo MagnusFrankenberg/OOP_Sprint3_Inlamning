@@ -1,42 +1,54 @@
 package Inlämning_3;
 
 import javax.swing.*;
+import java.awt.*;
+
 
 public class Spela {
 
     Spelplan_GUI sp;
 
-    public Spela(){
 
-        //Tar in önskad storlek på spelet vi spelets början
-        int storlek = Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)"));
+    public Spela() {
+
+       //tar in input för spelets storlek
+        int storlek = sizeChooser();
 
         //skapar upp ett objekt av Spelplan_GUI-klassen
-       sp = new Spelplan_GUI(storlek);
-
-       //behöver while-loop som kontrollerar ifall spelet är completed efter en knapptryckning
-
-       //behöver metod som kontrollerar om JButton "1" ligger på JPanel "1" osv...
+        sp = new Spelplan_GUI(storlek);
 
         //behöver metod som avslutar spelet eller "Nytt spel" etc.. Grattis du vann! "game over  etc...
-
         //färger, storlek, etc etc....
-
-        // behöver kod som flyttar en brickas position
-
         //en demoinställning som lägger brickorna en position från vinst så vinst kan demonstreras.
-
-       // makeAMove(sp.klickedPosition);
-
-        //
-
-
-
+        // makeAMove(sp.klickedPosition);
     }
+    public int sizeChooser() {
 
+        JLabel label1 = new JLabel("<html>Ange önskad storlek<br/> (antal rutor per rad)<html>");
+        JLabel label2 = new JLabel("Du måste ange en siffra");
+        label2.setForeground(Color.RED);
+        label2.setVisible(false);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(label1, BorderLayout.NORTH);
+        panel.add(label2, BorderLayout.CENTER);
 
-
-
+        int storlek;
+        while (true) {
+            try {
+                String input = JOptionPane.showInputDialog(panel);
+                if (input == null) {
+                    System.exit(0);
+                } else {
+                    storlek = Integer.parseInt(input);
+                    break;
+                }
+            } catch (Exception e) {
+                label2.setVisible(true);
+            }
+        }
+        return storlek;
+    }
 
     public static void main(String[] args) {
         Spela spela = new Spela();
