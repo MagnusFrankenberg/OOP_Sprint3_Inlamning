@@ -8,19 +8,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Spelplan_GUI implements ActionListener {
+public class Spelplan_GUI extends JFrame implements ActionListener {
 
-     int boardsize;
-     int squares;
+    int boardsize;
+    int squares;
 
-     // Hej hej
+    // Hej hej
 
-     JPanel klickedPosition;
+    JPanel klickedPosition;
 
 
-    JFrame frame = new JFrame("15-spel");
+    //  JFrame frame = new JFrame("15-spel");
     JPanel bottomPanel = new JPanel();
-    Font myFont1 = new Font("Ink Free", Font.BOLD, 17);
+
+    JPanel panel = new JPanel(); // Panel för allt
+    JPanel southPanel = new JPanel(); // Panel för flowlayout (kanppar)
+    JPanel northPanel = new JPanel(); // Panel för borderlayout (frame + bottomPanel i NORTH)
+
+    JButton buttonNewGame = new JButton("New game");
+    JButton buttomQuitGame = new JButton("Quit game");
+
+
+    Font myFont1 = new Font("Ink Free", Font.PLAIN, 27);
 
     Color BlueGreen = new Color(100, 230, 220);
 
@@ -30,15 +39,36 @@ public class Spelplan_GUI implements ActionListener {
 
     public Spelplan_GUI(int boardsize) {
         this.boardsize = boardsize;
-        this.squares = boardsize*boardsize;
+        this.squares = boardsize * boardsize;
 
+        add(panel);
+        panel.add(bottomPanel);
+        //   bottomPanel.setLayout(new GridLayout(boardsize, boardsize, 3, 3));
+        //   frame.add(bottomPanel);
 
-        frame.setSize(400, 400);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        panel.setLayout(new BorderLayout());
+        panel.add(northPanel, BorderLayout.NORTH);
+        panel.add(southPanel, BorderLayout.SOUTH);
 
         bottomPanel.setLayout(new GridLayout(boardsize, boardsize, 3, 3));
-        frame.add(bottomPanel);
+        southPanel.setLayout(new FlowLayout());
+
+        //   northPanel.add(bottomPanel);
+        //   northPanel.add(frame);
+        northPanel.add(bottomPanel);
+        southPanel.add(buttonNewGame);
+        southPanel.add(buttomQuitGame);
+
+        buttomQuitGame.addActionListener(this);
+        buttonNewGame.addActionListener(this);
+
+
+        setSize(400, 400); //frame.set
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        //frame.pack();
+        setVisible(true);
+
 
         //lägger till x st positioner (JPanel-objekt) på bottomPanel och lägger dem i listan positions
         for (int i = 0; i < squares; i++) {
@@ -66,22 +96,22 @@ public class Spelplan_GUI implements ActionListener {
             positions.get(i).add(buttons.get(i));
         }
 
-        //frame.pack();
-        frame.setVisible(true);
+        pack();
+
 
     }
 
     //hitta tom position (=hitta button med text "0" och returnera JPanel som den ligger på)
     public JPanel findEmptyPosition() {
         JPanel emptyposition = null;
-       JButton button;
-       for (int i = 0; i < squares; i++) {
-           button = ((JButton) positions.get(i).getComponent(0));  //här castar man från Component-type till JButton-type
-           if (button.getText().equals("0")) {
-               emptyposition = positions.get(i);
-           }
-       }
-       return emptyposition;
+        JButton button;
+        for (int i = 0; i < squares; i++) {
+            button = ((JButton) positions.get(i).getComponent(0));  //här castar man från Component-type till JButton-type
+            if (button.getText().equals("0")) {
+                emptyposition = positions.get(i);
+            }
+        }
+        return emptyposition;
     }
 
     //kollar om det är tillåtet att flytta från en position till den tomma positionen
@@ -92,11 +122,11 @@ public class Spelplan_GUI implements ActionListener {
 
         // identifierar rad och kolumn för tom ruta:
         int emptyPosRow = ((emptyPos - 1) / boardsize) + 1;
-        int emptyPosCol = ((emptyPos-1) % boardsize)+1;
+        int emptyPosCol = ((emptyPos - 1) % boardsize) + 1;
 
         // identifierar rad och kolumn för tryfrom position:
         int tryFromRow = ((tryFromPos - 1) / boardsize) + 1;
-        int tryFromCol = ((tryFromPos-1) % boardsize)+1;
+        int tryFromCol = ((tryFromPos - 1) % boardsize) + 1;
 
         //endast tillåtet att flytta 1 steg på spelplanen (horisontellt eller vertikalt)
         boolean isPermitted = false;
@@ -118,7 +148,7 @@ public class Spelplan_GUI implements ActionListener {
             //här behövs kod för att byta nummer på buttons och ändra visibility status
 
             //denna kod är för att kolla så koden funkar, tas bort sedan.
-            JOptionPane.showMessageDialog(null, "Det är tillåtet att flytta bricka nr: " + ((JButton)klickedPos.getComponent(0)).getText());
+            JOptionPane.showMessageDialog(null, "Det är tillåtet att flytta bricka nr: " + ((JButton) klickedPos.getComponent(0)).getText());
             movedSuccesfully = true;
         }
         return movedSuccesfully;
@@ -128,16 +158,23 @@ public class Spelplan_GUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //kollar vilken knapp tom tryckts, identifierar knappens position
         for (int i = 0; i < squares; i++) {
-            if(buttons.get(i)==e.getSource()){
-                 klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
+            if (buttons.get(i) == e.getSource()) {
+                klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
 
-                 //Testutskrift för att se om funktionaliteten funkar
+                //Testutskrift för att se om funktionaliteten funkar
                 JOptionPane.showMessageDialog(null, "Du tryckte på knapp: " + buttons.get(i).getText() +
-                        "\nsom ligger på position "+klickedPosition.getName());
+                        "\nsom ligger på position " + klickedPosition.getName());
 
                 makeAMove(klickedPosition);
 
             }
+
+        }
+        if (e.getSource() == buttomQuitGame) {
+            System.exit(0);
+        }
+        if (e.getSource() == buttonNewGame) {
+            Collections.shuffle(buttons); // ???
         }
     }
 }
