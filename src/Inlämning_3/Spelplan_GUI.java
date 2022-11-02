@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Spelplan_GUI implements ActionListener {
+public class Spelplan_GUI extends JFrame implements ActionListener {
 
     int boardsize;
     int squares;
@@ -18,9 +18,18 @@ public class Spelplan_GUI implements ActionListener {
     JPanel klickedPosition;
 
 
-    JFrame frame = new JFrame("15-spel");
+    //  JFrame frame = new JFrame("15-spel");
     JPanel bottomPanel = new JPanel();
-    Font myFont1 = new Font("Ink Free", Font.BOLD, 17);
+
+    JPanel panel = new JPanel(); // Panel för allt
+    JPanel southPanel = new JPanel(); // Panel för flowlayout (kanppar)
+    JPanel northPanel = new JPanel(); // Panel för borderlayout (frame + bottomPanel i NORTH)
+
+    JButton buttonNewGame = new JButton("New game");
+    JButton buttomQuitGame = new JButton("Quit game");
+
+
+    Font myFont1 = new Font("Ink Free", Font.PLAIN, 27);
 
     Color BlueGreen = new Color(100, 230, 220);
 
@@ -32,13 +41,34 @@ public class Spelplan_GUI implements ActionListener {
         this.boardsize = boardsize;
         this.squares = boardsize * boardsize;
 
+        add(panel);
+        panel.add(bottomPanel);
+        //   bottomPanel.setLayout(new GridLayout(boardsize, boardsize, 3, 3));
+        //   frame.add(bottomPanel);
 
-        frame.setSize(400, 400);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        panel.setLayout(new BorderLayout());
+        panel.add(northPanel, BorderLayout.NORTH);
+        panel.add(southPanel, BorderLayout.SOUTH);
 
         bottomPanel.setLayout(new GridLayout(boardsize, boardsize, 3, 3));
-        frame.add(bottomPanel);
+        southPanel.setLayout(new FlowLayout());
+
+        //   northPanel.add(bottomPanel);
+        //   northPanel.add(frame);
+        northPanel.add(bottomPanel);
+        southPanel.add(buttonNewGame);
+        southPanel.add(buttomQuitGame);
+
+        buttomQuitGame.addActionListener(this);
+        buttonNewGame.addActionListener(this);
+
+
+        setSize(400, 400); //frame.set
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        //frame.pack();
+        setVisible(true);
+
 
         //lägger till x st positioner (JPanel-objekt) på bottomPanel och lägger dem i listan positions
         for (int i = 0; i < squares; i++) {
@@ -66,8 +96,8 @@ public class Spelplan_GUI implements ActionListener {
             positions.get(i).add(buttons.get(i));
         }
 
-        //frame.pack();
-        frame.setVisible(true);
+        pack();
+
 
     }
 
@@ -127,7 +157,7 @@ public class Spelplan_GUI implements ActionListener {
 
 
             //denna kod är för att kolla så koden funkar, tas bort sedan.
-            //JOptionPane.showMessageDialog(null, "Det är tillåtet att flytta bricka nr: " + ((JButton)klickedPos.getComponent(0)).getText());
+
             movedSuccesfully = true;
         }
         return movedSuccesfully;
@@ -153,6 +183,7 @@ public class Spelplan_GUI implements ActionListener {
             if (buttons.get(i) == e.getSource()) {
                 klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
 
+
                 makeAMove(klickedPosition);
                 if (gameCompleted()) {
                     JOptionPane.showMessageDialog(null, "Congrats! You have completed the Game!");
@@ -167,6 +198,13 @@ public class Spelplan_GUI implements ActionListener {
 
                 }
             }
+
+        }
+        if (e.getSource() == buttomQuitGame) {
+            System.exit(0);
+        }
+        if (e.getSource() == buttonNewGame) {
+            Collections.shuffle(buttons); // ???
         }
     }
 }
