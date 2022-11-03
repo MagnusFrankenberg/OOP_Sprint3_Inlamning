@@ -12,7 +12,8 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
     int boardsize;
     int squares;
 
-    Spela game;
+
+
 
     JPanel klickedPosition;
 
@@ -34,8 +35,9 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
     List<JPanel> positions = new ArrayList<>();
 
 
-    public Spelplan_GUI(int boardsize) {
-        this.boardsize = boardsize;
+    public Spelplan_GUI() {
+
+        this.boardsize = sizeChooser();
         this.squares = boardsize * boardsize;
 
         add(panel);
@@ -91,10 +93,34 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
         for (int i = 0; i < squares; i++) {
             positions.get(i).add(buttons.get(i));
         }
-
         pack();
+    }
 
+    public int sizeChooser() {
+        JLabel label1 = new JLabel("<html>Ange antal rutor per rad:<html>");
+        JLabel label2 = new JLabel("Du måste ange en siffra");
+        label2.setForeground(Color.RED);
+        label2.setVisible(false);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(label1, BorderLayout.NORTH);
+        panel.add(label2, BorderLayout.CENTER);
 
+        int storlek;
+        while (true) {
+            try {
+                String input = JOptionPane.showInputDialog(panel, panel, "Hur stort ska spelbrädet vara?", 3);
+                if (input == null) {
+                    System.exit(0);
+                } else {
+                    storlek = Integer.parseInt(input);
+                    break;
+                }
+            } catch (Exception e) {
+                label2.setVisible(true);
+            }
+        }
+        return storlek;
     }
 
     MouseListener muspressed = new MouseAdapter() {
@@ -105,8 +131,6 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
                     buttons.get(i).setForeground(Color.orange);
                     buttons.get(i).revalidate();
                 }
-
-
             }
         }
 
@@ -119,116 +143,120 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
                 }
             }
         }
-
     };
 
 
-        //hitta tom position (=hitta button med text "0" och returnera JPanel som den ligger på)
-        public JPanel findEmptyPosition() {
-            JPanel emptyposition = null;
-            JButton button;
-            for (int i = 0; i < squares; i++) {
-                button = ((JButton) positions.get(i).getComponent(0));  //här castar man från Component-type till JButton-type
-                if (button.getText().equals("0")) {
-                    emptyposition = positions.get(i);
-                }
+    //hitta tom position (=hitta button med text "0" och returnera JPanel som den ligger på)
+    public JPanel findEmptyPosition() {
+        JPanel emptyposition = null;
+        JButton button;
+        for (int i = 0; i < squares; i++) {
+            button = ((JButton) positions.get(i).getComponent(0));  //här castar man från Component-type till JButton-type
+            if (button.getText().equals("0")) {
+                emptyposition = positions.get(i);
             }
-            return emptyposition;
         }
+        return emptyposition;
+    }
 
-        //kollar om det är tillåtet att flytta från en position till den tomma positionen
-        public boolean isPermittedSwap(JPanel emptyposition, JPanel tryFromPosition) {
-            //skapar integers av positionsnumren
-            int emptyPos = Integer.parseInt(emptyposition.getName());
-            int tryFromPos = Integer.parseInt(tryFromPosition.getName());
+    //kollar om det är tillåtet att flytta från en position till den tomma positionen
+    public boolean isPermittedSwap(JPanel emptyposition, JPanel tryFromPosition) {
+        //skapar integers av positionsnumren
+        int emptyPos = Integer.parseInt(emptyposition.getName());
+        int tryFromPos = Integer.parseInt(tryFromPosition.getName());
 
-            // identifierar rad och kolumn för tom ruta:
-            int emptyPosRow = ((emptyPos - 1) / boardsize) + 1;
-            int emptyPosCol = ((emptyPos - 1) % boardsize) + 1;
+        // identifierar rad och kolumn för tom ruta:
+        int emptyPosRow = ((emptyPos - 1) / boardsize) + 1;
+        int emptyPosCol = ((emptyPos - 1) % boardsize) + 1;
 
-            // identifierar rad och kolumn för tryfrom position:
-            int tryFromRow = ((tryFromPos - 1) / boardsize) + 1;
-            int tryFromCol = ((tryFromPos - 1) % boardsize) + 1;
+        // identifierar rad och kolumn för tryfrom position:
+        int tryFromRow = ((tryFromPos - 1) / boardsize) + 1;
+        int tryFromCol = ((tryFromPos - 1) % boardsize) + 1;
 
-            //endast tillåtet att flytta 1 steg på spelplanen (horisontellt eller vertikalt)
-            boolean isPermitted = false;
-            if (emptyPosCol == tryFromCol) {
-                if (Math.abs(emptyPosRow - tryFromRow) == 1) {
-                    isPermitted = true;
-                }
-            } else if (emptyPosRow == tryFromRow) {
-                if (Math.abs(emptyPosCol - tryFromCol) == 1) {
-                    isPermitted = true;
-                }
+        //endast tillåtet att flytta 1 steg på spelplanen (horisontellt eller vertikalt)
+        boolean isPermitted = false;
+        if (emptyPosCol == tryFromCol) {
+            if (Math.abs(emptyPosRow - tryFromRow) == 1) {
+                isPermitted = true;
             }
-            return isPermitted;
+        } else if (emptyPosRow == tryFromRow) {
+            if (Math.abs(emptyPosCol - tryFromCol) == 1) {
+                isPermitted = true;
+            }
         }
+        return isPermitted;
+    }
 
-        public boolean makeAMove(JPanel klickedPos) {
-            boolean movedSuccesfully = false;
-            if (isPermittedSwap(findEmptyPosition(), klickedPos)) {
-                JButton empty = ((JButton) findEmptyPosition().getComponent(0));
-                JButton klicked = ((JButton) klickedPos.getComponent(0));
+    public boolean makeAMove(JPanel klickedPos) {
+        boolean movedSuccesfully = false;
+        if (isPermittedSwap(findEmptyPosition(), klickedPos)) {
+            JButton empty = ((JButton) findEmptyPosition().getComponent(0));
+            JButton klicked = ((JButton) klickedPos.getComponent(0));
 
-                empty.setText(klicked.getText());
-                empty.setVisible(true);
+            empty.setText(klicked.getText());
+            empty.setVisible(true);
 
-                klicked.setText("0");
-                klicked.setVisible(false);
-                //här behövs kod för att byta nummer på buttons och ändra visibility status
+            klicked.setText("0");
+            klicked.setVisible(false);
 
-
-                //denna kod är för att kolla så koden funkar, tas bort sedan.
-
-                movedSuccesfully = true;
-            }
-            return movedSuccesfully;
+            movedSuccesfully = true;
         }
+        return movedSuccesfully;
+    }
 
-        public boolean gameCompleted() {
-            boolean completed = true;
-            for (int i = 0; i < squares - 1; i++) {
-                String buttonNo = ((JButton) positions.get(i).getComponent(0)).getText();
-                String positionNo = String.valueOf(i + 1);
-                if (!buttonNo.equals(positionNo)) {
-                    completed = false;
-                    break;
+    public boolean gameCompleted() {
+        boolean completed = true;
+        for (int i = 0; i < squares - 1; i++) {
+            String buttonNo = ((JButton) positions.get(i).getComponent(0)).getText();
+            String positionNo = String.valueOf(i + 1);
+            if (!buttonNo.equals(positionNo)) {
+                completed = false;
+                break;
+            }
+        }
+        return completed;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //kollar vilken knapp tom tryckts, identifierar knappens position
+        for (int i = 0; i < squares; i++) {
+            if (buttons.get(i) == e.getSource()) {
+                klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
+
+                makeAMove(klickedPosition);
+                if (gameCompleted()) {
+                    dispose();
+                    winningTheGame();
                 }
             }
-            return completed;
         }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //kollar vilken knapp tom tryckts, identifierar knappens position
-            for (int i = 0; i < squares; i++) {
-                if (buttons.get(i) == e.getSource()) {
-                    klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
-
-                    makeAMove(klickedPosition);
-                    if (gameCompleted()) {
-                        JOptionPane.showMessageDialog(null, "Grattis, du vann!");
-
-                        int dialogbutton = JOptionPane.YES_NO_OPTION;
-                        JOptionPane.showConfirmDialog(null, "Vill du spela igen?", "", dialogbutton);
-                        if (dialogbutton == JOptionPane.YES_NO_OPTION) {
-                            new Spelplan_GUI(game.sizeChooser());
-                        } else {
-                            System.exit(0);
-                        }
-
-                    }
-                }
-
-            }
-            if (e.getSource() == buttomQuitGame) {
-                System.exit(0);
-            }
-            if (e.getSource() == buttonNewGame) {
-                new Spelplan_GUI(Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)")));
-
-            }
+        if (e.getSource() == buttomQuitGame) {
+            System.exit(0);
+        }
+        if (e.getSource() == buttonNewGame) {
+            dispose();
+            new Spelplan_GUI();
         }
     }
+
+    public void winningTheGame() {
+        Color myColor = new Color(0,150,0);
+        JLabel label = new JLabel("Grattis, du vann!");
+        label.setFont(new Font("Ink Free", Font.PLAIN, 24));
+        label.setForeground(myColor);
+        JOptionPane.showMessageDialog(null,label);
+
+        int dialogbutton;
+        dialogbutton = JOptionPane.showConfirmDialog(null, "Vill du spela igen?", "", JOptionPane.YES_NO_OPTION);
+        if (dialogbutton == JOptionPane.YES_OPTION) {
+            dispose();
+            new Spelplan_GUI();
+        } else if (dialogbutton == JOptionPane.NO_OPTION) {
+            dispose();
+            System.exit(0);
+        }
+    }
+}
 
 

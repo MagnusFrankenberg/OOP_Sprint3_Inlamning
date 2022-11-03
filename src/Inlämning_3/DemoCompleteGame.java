@@ -6,12 +6,13 @@ import java.awt.event.ActionListener;
 
 public class DemoCompleteGame {
 
+    Spela g;
 
 
     public DemoCompleteGame(){
-        int storlek = Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)"));
 
-       Spelplan_GUI demo = new Spelplan_GUI(storlek);
+
+       Spelplan_GUI demo = new Spelplan_GUI();
         for (int i = 0; i < demo.squares-2; i++) {
             JPanel position = demo.positions.get(i);
             JButton button = (JButton) demo.positions.get(i).getComponent(0);
