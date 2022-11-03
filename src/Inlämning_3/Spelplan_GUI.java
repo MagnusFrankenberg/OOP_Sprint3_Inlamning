@@ -13,13 +13,15 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
     int squares;
 
 
+    Spelplan_GUI s;
 
 
     JPanel klickedPosition;
 
-    JPanel bottomPanel = new JPanel();
+    JFrame frame2 = new JFrame();
 
     JPanel panel = new JPanel();
+    JPanel bottomPanel = new JPanel();
     JPanel southPanel = new JPanel();
     JPanel northPanel = new JPanel();
 
@@ -35,12 +37,12 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
     List<JPanel> positions = new ArrayList<>();
 
 
-    public Spelplan_GUI() {
+    public Spelplan_GUI(int boardsize) {
 
-        this.boardsize = sizeChooser();
+        this.boardsize = boardsize;
         this.squares = boardsize * boardsize;
 
-        add(panel);
+        frame2.add(panel);
         panel.add(bottomPanel);
 
         panel.setLayout(new BorderLayout());
@@ -59,11 +61,10 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
         buttonNewGame.addActionListener(this);
 
 
-        setSize(400, 400);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        //frame.pack();
-        setVisible(true);
+        frame2.setSize(400, 400);
+        frame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame2.setLocationRelativeTo(null);
+        frame2.setVisible(true);
 
 
         //lägger till x st positioner (JPanel-objekt) på bottomPanel och lägger dem i listan positions
@@ -93,35 +94,11 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
         for (int i = 0; i < squares; i++) {
             positions.get(i).add(buttons.get(i));
         }
-        pack();
+
+ frame2.pack();
     }
 
-    public int sizeChooser() {
-        JLabel label1 = new JLabel("<html>Ange antal rutor per rad:<html>");
-        JLabel label2 = new JLabel("Du måste ange en siffra");
-        label2.setForeground(Color.RED);
-        label2.setVisible(false);
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add(label1, BorderLayout.NORTH);
-        panel.add(label2, BorderLayout.CENTER);
-
-        int storlek;
-        while (true) {
-            try {
-                String input = JOptionPane.showInputDialog(panel, panel, "Hur stort ska spelbrädet vara?", 3);
-                if (input == null) {
-                    System.exit(0);
-                } else {
-                    storlek = Integer.parseInt(input);
-                    break;
-                }
-            } catch (Exception e) {
-                label2.setVisible(true);
-            }
-        }
-        return storlek;
-    }
+   
 
     MouseListener muspressed = new MouseAdapter() {
         @Override
@@ -217,6 +194,7 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
         return completed;
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         //kollar vilken knapp tom tryckts, identifierar knappens position
@@ -224,20 +202,24 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
             if (buttons.get(i) == e.getSource()) {
                 klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
 
+
                 makeAMove(klickedPosition);
                 if (gameCompleted()) {
                     dispose();
                     winningTheGame();
                 }
             }
+
         }
-        if (e.getSource() == buttomQuitGame) {
-            System.exit(0);
-        }
-        if (e.getSource() == buttonNewGame) {
-            dispose();
-            new Spelplan_GUI();
-        }
+         if (e.getSource() == buttomQuitGame) {
+                System.exit(0);
+            }
+            if (e.getSource() == buttonNewGame) {
+                new Spelplan_GUI(new SizeChooser().SizeChooser());
+            }
+            if ((e.getSource() == buttomQuitGame || e.getSource() == buttonNewGame)) {
+                frame2.dispose();
+            }
     }
 
     public void winningTheGame() {
@@ -257,6 +239,6 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
             System.exit(0);
         }
     }
-}
-
+} 
+  }
 
