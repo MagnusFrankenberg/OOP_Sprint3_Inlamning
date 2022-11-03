@@ -1,8 +1,11 @@
 package Inlämning_3;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DemoCompleteGame {
+
 
 
     public DemoCompleteGame(){
@@ -22,9 +25,6 @@ public class DemoCompleteGame {
         JButton buttonLast = (JButton) demo.positions.get(demo.squares-1).getComponent(0);
         buttonLast.setText(String.valueOf(demo.squares-1));
         buttonLast.setVisible(true);
-
-
-
 
 
     }
