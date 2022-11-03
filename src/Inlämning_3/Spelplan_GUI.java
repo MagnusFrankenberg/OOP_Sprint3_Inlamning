@@ -12,10 +12,6 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
     int boardsize;
     int squares;
 
-
-    Spelplan_GUI s;
-
-
     JPanel klickedPosition;
 
     JFrame frame2 = new JFrame();
@@ -95,10 +91,9 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
             positions.get(i).add(buttons.get(i));
         }
 
- frame2.pack();
+        frame2.pack();
     }
 
-   
 
     MouseListener muspressed = new MouseAdapter() {
         @Override
@@ -202,43 +197,41 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
             if (buttons.get(i) == e.getSource()) {
                 klickedPosition = (JPanel) buttons.get(i).getParent(); //castar Component-type till JPanel-type
 
-
                 makeAMove(klickedPosition);
                 if (gameCompleted()) {
                     dispose();
                     winningTheGame();
                 }
             }
-
         }
-         if (e.getSource() == buttomQuitGame) {
-                System.exit(0);
-            }
-            if (e.getSource() == buttonNewGame) {
-                new Spelplan_GUI(new SizeChooser().SizeChooser());
-            }
-            if ((e.getSource() == buttomQuitGame || e.getSource() == buttonNewGame)) {
-                frame2.dispose();
-            }
+        if (e.getSource() == buttomQuitGame) {
+            System.exit(0);
+        }
+        if (e.getSource() == buttonNewGame) {
+            new Spelplan_GUI(new SizeChooser().SizeChooser());
+        }
+        if ((e.getSource() == buttomQuitGame || e.getSource() == buttonNewGame)) {
+            frame2.dispose();
+        }
     }
 
     public void winningTheGame() {
-        Color myColor = new Color(0,150,0);
+        Color myColor = new Color(0, 150, 0);
         JLabel label = new JLabel("Grattis, du vann!");
         label.setFont(new Font("Ink Free", Font.PLAIN, 24));
         label.setForeground(myColor);
-        JOptionPane.showMessageDialog(null,label);
+        JOptionPane.showMessageDialog(null, label);
 
         int dialogbutton;
         dialogbutton = JOptionPane.showConfirmDialog(null, "Vill du spela igen?", "", JOptionPane.YES_NO_OPTION);
         if (dialogbutton == JOptionPane.YES_OPTION) {
-            dispose();
-            new Spelplan_GUI();
+            frame2.dispose();
+            new Spelplan_GUI(new SizeChooser().SizeChooser());
         } else if (dialogbutton == JOptionPane.NO_OPTION) {
-            dispose();
+            frame2.dispose();
             System.exit(0);
         }
     }
 } 
-  }
+
 
