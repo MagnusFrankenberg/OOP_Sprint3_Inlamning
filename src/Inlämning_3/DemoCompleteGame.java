@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class DemoCompleteGame {
 
-    Spela g;
 
 
     public DemoCompleteGame(){
