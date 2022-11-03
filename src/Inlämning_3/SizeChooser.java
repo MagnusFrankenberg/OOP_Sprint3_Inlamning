@@ -5,8 +5,7 @@ import java.awt.*;
 
 public class SizeChooser {
 
-    //skapar upp ett objekt av Spelplan_GUI-klassen
-   // sp = new Spelplan_GUI(storlek);
+
 
     public int SizeChooser() {
         JLabel label1 = new JLabel("<html>Ange antal rutor per rad:<html>");
