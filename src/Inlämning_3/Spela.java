@@ -1,6 +1,7 @@
 package Inlämning_3;
 
 import javax.swing.*;
+
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 public class Spela extends JFrame implements ActionListener {
 
     Spelplan_GUI sp;
+
 
     JFrame frame = new JFrame();
 
@@ -25,6 +27,8 @@ public class Spela extends JFrame implements ActionListener {
 
 
     public Spela(){
+    
+     int storlek = sizeChooser();
 
         frame.add(panelDemo);
         panelDemo.add(headLable);
@@ -55,6 +59,9 @@ public class Spela extends JFrame implements ActionListener {
         buttomPlay.setFont(new Font("Ink Free", Font.PLAIN, 18));
 
 
+        //skapar upp ett objekt av Spelplan_GUI-klassen
+        sp = new Spelplan_GUI(storlek);
+
     }
 
     @Override
@@ -71,9 +78,33 @@ public class Spela extends JFrame implements ActionListener {
         }
     }
 
+    //tar in och returnerar storlek på spelet
+    public int sizeChooser() {
+        JLabel label1 = new JLabel("<html>Ange antal rutor per rad:<html>");
+        JLabel label2 = new JLabel("Du måste ange en siffra");
+        label2.setForeground(Color.RED);
+        label2.setVisible(false);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(label1, BorderLayout.NORTH);
+        panel.add(label2, BorderLayout.CENTER);
 
-
-
+        int storlek;
+        while (true) {
+            try {
+                String input = JOptionPane.showInputDialog(panel, panel, "Hur stort ska spelbrädet vara?", 3);
+                if (input == null) {
+                    System.exit(0);
+                } else {
+                    storlek = Integer.parseInt(input);
+                    break;
+                }
+            } catch (Exception e) {
+                label2.setVisible(true);
+            }
+        }
+        return storlek;
+    }
 
     public static void main(String[] args) {
         Spela spela = new Spela();
