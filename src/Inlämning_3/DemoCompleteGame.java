@@ -10,7 +10,7 @@ public class DemoCompleteGame {
     public DemoCompleteGame(){
 
 
-       Spelplan_GUI demo = new Spelplan_GUI();
+       Spelplan_GUI demo = new Spelplan_GUI(new SizeChooser().SizeChooser());
         for (int i = 0; i < demo.squares-2; i++) {
             JPanel position = demo.positions.get(i);
             JButton button = (JButton) demo.positions.get(i).getComponent(0);

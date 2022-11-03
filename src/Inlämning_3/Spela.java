@@ -51,20 +51,11 @@ public class Spela extends JFrame implements ActionListener {
     }
 
 
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttomDemo) {
             DemoCompleteGame dg = new DemoCompleteGame();
-        }else if (e.getSource()==buttomPlay){
-           // int storlek = Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)"));
-            frame.dispose();
-            sp = new Spelplan_GUI();
         }
-
-
         if (e.getSource() == buttomPlay) {
             new Spelplan_GUI(new SizeChooser().SizeChooser());
         }
