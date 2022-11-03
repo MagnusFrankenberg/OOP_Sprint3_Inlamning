@@ -17,14 +17,9 @@ public class Spela {
         //skapar upp ett objekt av Spelplan_GUI-klassen
         sp = new Spelplan_GUI(storlek);
 
-        //behöver metod som avslutar spelet eller "Nytt spel" etc.. Grattis du vann! "game over  etc...
-        //färger, storlek, etc etc....
-        //en demoinställning som lägger brickorna en position från vinst så vinst kan demonstreras.
-        // makeAMove(sp.klickedPosition);
     }
 
     public int sizeChooser() {
-
         JLabel label1 = new JLabel("<html>Ange antal rutor per rad:<html>");
         JLabel label2 = new JLabel("Du måste ange en siffra");
         label2.setForeground(Color.RED);
