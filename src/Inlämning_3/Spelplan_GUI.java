@@ -12,13 +12,14 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
     int boardsize;
     int squares;
 
-    Spela game;
+    Spelplan_GUI s;
 
     JPanel klickedPosition;
 
-    JPanel bottomPanel = new JPanel();
+    JFrame frame2 = new JFrame();
 
     JPanel panel = new JPanel();
+    JPanel bottomPanel = new JPanel();
     JPanel southPanel = new JPanel();
     JPanel northPanel = new JPanel();
 
@@ -38,7 +39,7 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
         this.boardsize = boardsize;
         this.squares = boardsize * boardsize;
 
-        add(panel);
+        frame2.add(panel);
         panel.add(bottomPanel);
 
         panel.setLayout(new BorderLayout());
@@ -57,11 +58,10 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
         buttonNewGame.addActionListener(this);
 
 
-        setSize(400, 400);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        //frame.pack();
-        setVisible(true);
+        frame2.setSize(400, 400);
+        frame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame2.setLocationRelativeTo(null);
+        frame2.setVisible(true);
 
 
         //lägger till x st positioner (JPanel-objekt) på bottomPanel och lägger dem i listan positions
@@ -92,7 +92,7 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
             positions.get(i).add(buttons.get(i));
         }
 
-        pack();
+        frame2.pack();
 
 
     }
@@ -105,7 +105,6 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
                     buttons.get(i).setForeground(Color.orange);
                     buttons.get(i).revalidate();
                 }
-
 
             }
         }
@@ -210,10 +209,11 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null, "Grattis, du vann!");
 
                         int dialogbutton = JOptionPane.YES_NO_OPTION;
-                        JOptionPane.showConfirmDialog(null, "Vill du spela igen?", "", dialogbutton);
+                        int input = JOptionPane.showConfirmDialog(null, "Vill du spela igen?", "", dialogbutton);
                         if (dialogbutton == JOptionPane.YES_NO_OPTION) {
-                            new Spelplan_GUI(game.sizeChooser());
-                        } else {
+                            s = new Spelplan_GUI(input);
+                        }
+                        else {
                             System.exit(0);
                         }
 
@@ -225,10 +225,11 @@ public class Spelplan_GUI extends JFrame implements ActionListener {
                 System.exit(0);
             }
             if (e.getSource() == buttonNewGame) {
-                new Spelplan_GUI(Integer.parseInt(JOptionPane.showInputDialog("Ange önskat antal rutor (ange antal rutor per rad)")));
-
+                new Spelplan_GUI(new SizeChooser().SizeChooser());
             }
+            if ((e.getSource() == buttomQuitGame || e.getSource() == buttonNewGame)) {
+                frame2.dispose();
+            }
+
         }
     }
-
-
